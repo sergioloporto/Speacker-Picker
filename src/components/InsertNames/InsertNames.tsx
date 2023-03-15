@@ -23,18 +23,36 @@ const InsertNames = () => {
   const day = date.getDate();
   const today = Number(moment().format("D"));
 
-  const getDays = (year: number, month: number) => {
-    return new Date(year, month, 0).getDate();
+  const getDays = moment().daysInMonth();
+  const getDayInWord = (specificDay: number | undefined) =>
+    new Date(date.getFullYear(), date.getMonth(), specificDay);
+  const isWeekend = (day: number) => {
+    return moment(getDayInWord(day)).format("dddd") === "Saturday" ||
+      moment(getDayInWord(day)).format("dddd") === "Sunday"
+      ? true
+      : false;
   };
 
   const winnersUntilToday = [...Array(day).keys()].map(
     (_, i) => getNamesFromLocalStorage()[i % getNamesFromLocalStorage().length]
   );
-  const winnersForTheMonth = [
-    ...Array(getDays(date.getFullYear(), date.getMonth() + 1)).keys(),
-  ].map(
-    (_, i) => getNamesFromLocalStorage()[i % getNamesFromLocalStorage().length]
-  );
+
+  let nextPersonIndex = -1;
+
+  const winnersForTheMonth = [...Array(getDays).keys()].map((_, i) => {
+    if (isWeekend(i + 1)) {
+      return undefined;
+    }
+    nextPersonIndex++;
+
+    if (nextPersonIndex === getNamesFromLocalStorage().length) {
+      nextPersonIndex = 0;
+    }
+
+    return getNamesFromLocalStorage()[nextPersonIndex];
+  });
+
+  console.log("winnersForTheMonth", winnersForTheMonth);
 
   const handleChange = (newChips: string[]) => {
     const sortNames = newChips.sort();
@@ -60,8 +78,7 @@ const InsertNames = () => {
         <Box sx={{ textAlign: "center" }}>
           <Alert severity="success" sx={{ margin: "30px" }}>
             {" "}
-            Today's presenter is{" "}
-            {winnersUntilToday[winnersUntilToday.length - 1]}
+            Today's presenter is {winnersForTheMonth[new Date().getDate() - 1]}
           </Alert>
           {winnersForTheMonth.map((el, i) => {
             const todayNumber = i + 1;
@@ -83,7 +100,9 @@ const InsertNames = () => {
                   }),
                 }}
               >
-                {`${moment().format("MMMM")} ${todayNumber} => ${el}`}
+                {`${moment().format("MMMM")} ${todayNumber} => ${
+                  isWeekend(todayNumber) ? "weekend" : el
+                }`}
               </Typography>
             );
           })}
