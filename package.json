@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.10.6",
+    "@netlify/plugin-nextjs": "^4.32.2",
     "@types/node": "18.13.0",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
