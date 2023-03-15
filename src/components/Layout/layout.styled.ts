@@ -1,11 +1,4 @@
-import Image from "next/image";
-import styled from "@emotion/styled";
 import { SxProps } from "@mui/material";
-import { SIDEBAR_WIDTH } from "./constants";
-
-const calculateWithForSmallDevices = {
-  sm: `calc(100% - ${SIDEBAR_WIDTH}px)`,
-};
 
 export const FlexSpbetwenWidth100: SxProps = {
   display: "flex",
@@ -14,9 +7,10 @@ export const FlexSpbetwenWidth100: SxProps = {
 };
 
 export const LogoContainer: SxProps = {
-  minWidth: SIDEBAR_WIDTH - 24,
   display: { xs: "none", sm: "flex" },
   justifyContent: "center",
+  alignItems: "center",
+  whiteSpace: "nowrap",
 };
 
 export const PageTitleAndLogoutBtnContainer: SxProps = {
@@ -25,16 +19,10 @@ export const PageTitleAndLogoutBtnContainer: SxProps = {
   paddingLeft: "24px",
 };
 
-export const LogoImage = styled(Image)`
-  margin: "auto";
-`;
-
-export const LogoutIconSx: SxProps = {
-  marginY: "auto",
-};
-
 export const MainContainer: SxProps = {
   flexGrow: 1,
   p: 3,
-  width: calculateWithForSmallDevices,
+  display: "flex",
+  flexDirection: "column",
+  maxWidth: "1000px",
 };

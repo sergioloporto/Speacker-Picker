@@ -1,10 +1,10 @@
 export const pages = {
   home: {
-    name: "Pending Items",
+    name: "Speaker Picker",
     url: "/",
   },
-  moderators: {
-    name: "Moderators",
-    url: "/moderators",
+  changelog: {
+    name: "Changelog",
+    url: "/changelog",
   },
 };

@@ -1,21 +1,12 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { Sidebar } from "./Sidebar/Sidebar";
+import { Sidebar, SidebarInner } from "./Sidebar/Navbar";
 import { pages } from "../../utils/routing";
-import { SIDEBAR_WIDTH } from "./constants";
-import {
-  AppBar,
-  Box,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import logo from "@/assets/logo-rect-white.svg";
 import {
   FlexSpbetwenWidth100,
   LogoContainer,
-  LogoImage,
   MainContainer,
   PageTitleAndLogoutBtnContainer,
 } from "./layout.styled";
@@ -38,7 +29,12 @@ export const Layout = ({ children }: LayoutProps) => {
   )?.name;
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <AppBar
         position="static"
         sx={{
@@ -59,37 +55,37 @@ export const Layout = ({ children }: LayoutProps) => {
           <Box sx={FlexSpbetwenWidth100}>
             <Box sx={FlexSpbetwenWidth100}>
               <Box sx={LogoContainer}>
-                <LogoImage
+                {/* <LogoImage
                   src={logo}
-                  alt="Limango logo"
+                  alt=" logo"
                   width="120"
                   style={{ margin: "auto" }}
                   priority
-                />
+                /> */}
+                Speaker Picker
               </Box>
               <Box sx={PageTitleAndLogoutBtnContainer}>
                 <Typography variant="h6" noWrap component="div">
                   {pageTitle}
                 </Typography>
+                <SidebarInner onNavbar />
               </Box>
             </Box>
           </Box>
         </Toolbar>
       </AppBar>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Sidebar
-          drawerWidth={SIDEBAR_WIDTH}
+          drawerWidth={240}
           handleDrawerToggle={handleDrawerToggle}
           isMobileOpen={isMobileOpen}
         />
 
-        <Box
-          component="main"
-          sx={MainContainer}
-        >
+        <Box component="main" sx={MainContainer}>
           {children}
         </Box>
       </Box>
+      <Typography sx={{ textAlign: "right" }}>v 1.2.0</Typography>
     </Box>
   );
 };

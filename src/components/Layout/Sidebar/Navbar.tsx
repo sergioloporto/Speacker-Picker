@@ -6,12 +6,9 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import ListAltIcon from "@mui/icons-material/ListAlt";
-import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
-import { StyledLink, SidebarInnerStyled } from "./sidebar.styled";
+import { StyledLink, SidebarInnerStyled } from "./navbar.styled";
 interface SidebarProps {
   handleDrawerToggle?: () => void;
   isMobileOpen: boolean;
@@ -30,38 +27,28 @@ interface MenuItemProps {
   };
 }
 
-const MenuIcon = ({ pageName }) => {
-  switch (pageName) {
-    case "Pending Items":
-      return <ListAltIcon />;
-    case "Moderators":
-      return <SupervisorAccountIcon />;
-
-    default:
-      return null;
-  }
-};
-
 const MenuItem = ({ url, name, onClickEvt, sxProps }: MenuItemProps) => {
   return (
     <ListItem disablePadding sx={sxProps}>
       <StyledLink href={url}>
         <ListItemButton onClick={onClickEvt}>
-          <ListItemIcon>
-            <MenuIcon pageName={name} />
-          </ListItemIcon>
-          <ListItemText primary={name} />
+          <ListItemText
+            primary={name}
+            sx={{ whiteSpace: "nowrap", textTransform: "uppercase" }}
+          />
         </ListItemButton>
       </StyledLink>
     </ListItem>
   );
 };
 
-const SidebarInner = () => {
+export const SidebarInner = ({ onNavbar }) => {
   return (
     <SidebarInnerStyled>
       <Divider />
-      <List sx={{ textDecoration: "none" }}>
+      <List
+        sx={{ textDecoration: "none", display: onNavbar ? "flex" : "block" }}
+      >
         {Object.values(pages).map(({ name, url }) => (
           <MenuItem
             key={url}
@@ -83,7 +70,11 @@ const Sidebar = (props: SidebarProps) => {
     <Box sx={{ display: "flex" }}>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{
+          width: { sm: drawerWidth },
+          flexShrink: { sm: 0 },
+          display: { xs: "none", sm: "none" },
+        }}
         aria-label="mailbox folders"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -102,22 +93,7 @@ const Sidebar = (props: SidebarProps) => {
             },
           }}
         >
-          <SidebarInner />
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-              position: "static",
-              height: "100vh",
-            },
-          }}
-          open
-        >
-          <SidebarInner />
+          <SidebarInner onNavbar={false}/>
         </Drawer>
       </Box>
     </Box>
